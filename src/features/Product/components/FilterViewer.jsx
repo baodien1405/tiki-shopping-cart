@@ -77,7 +77,6 @@ const FILTER_LIST = [
     id: 4,
     getLabel: (filters) => {
       if (filters["category.id"]) {
-        console.log(typeof filters["category.id"]);
         switch (filters["category.id"]) {
           case "1": {
             return "Thời trang";
