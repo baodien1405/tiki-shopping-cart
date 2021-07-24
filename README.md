@@ -4,6 +4,11 @@
 
 Github Project: https://github.com/baodien1405/tiki-shopping-cart
 
+## Production Deployment
+
+Website Project: https://dien-shopping-cart.vercel.app/
+
+
 ### 1. Setup ReactJS App via Create React App
 
 > Link: https://create-react-app.dev/docs/getting-started/
