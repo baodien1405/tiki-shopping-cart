@@ -77,20 +77,21 @@ const FILTER_LIST = [
     id: 4,
     getLabel: (filters) => {
       if (filters["category.id"]) {
+        console.log(typeof filters["category.id"]);
         switch (filters["category.id"]) {
-          case 1: {
+          case "1": {
             return "Thời trang";
           }
-          case 2: {
+          case "2": {
             return "Khẩu trang";
           }
-          case 3: {
+          case "3": {
             return "Làm đẹp";
           }
-          case 4: {
+          case "4": {
             return "Laptop";
           }
-          case 5: {
+          case "5": {
             return "Ổ cứng";
           }
           default: {
