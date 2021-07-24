@@ -1,70 +1,160 @@
-# Getting Started with Create React App
+# Project: Shopping Cart
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Setup environment 
 
-## Available Scripts
+Github Project: https://github.com/baodien1405/tiki-shopping-cart
 
-In the project directory, you can run:
+### 1. Setup ReactJS App via Create React App
 
-### `yarn start`
+> Link: https://create-react-app.dev/docs/getting-started/
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 2. Add react router 
 
-### `yarn test`
+```
+npm i --save react-router-dom
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. Add UI lib
 
-### `yarn build`
+```
+npm i --save @material-ui/core @material-ui/icons @material-ui/lab
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 4. Add Form lib
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+npm i --save react-hook-form
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 5. Add State management lib
 
-### `yarn eject`
+```
+npm i --save @reduxjs/toolkit react-redux
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Tổ chức folder
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+src
+|__ assets
+|  |__ api (organize api for app)
+|  |__ app (global state managerment) 
+|
+|__ components (shared components)
+|
+|__ features
+|  |__ Product
+|  |  |__ Filters
+|  |  |   |__ CategorySkeletonList.jsx
+|  |  |   |__ FilterByCategory.jsx
+|  |  |   |__ FilterByPrice.jsx
+|  |  |   |__ FilterByService.jsx
+|  |  |
+|  |  |__ components
+|  |  |  |__ AddToCartForm
+|  |  |  |__ FilterViewer
+|  |  |  |__ Product
+|  |  |  |__ ProductAdditional
+|  |  |  |__ ProductDescription
+|  |  |  |__ ProductFilters
+|  |  |  |__ ProductInfo
+|  |  |  |__ ProductList
+|  |  |  |__ ProductMenu
+|  |  |  |__ ProductReviews
+|  |  |  |__ ProductSkeletonList
+|  |  |  |__ ProductSort
+|  |  |  |__ ProductThumbnail
+|  |  |
+|  |  |__ hooks (hook for feature)
+|  |  |
+|  |  |__ pages
+|  |  |  |__ DetailPage
+|  |  |  |__ ListPage
+|  |  |__ index.jsx
+|  |
+|  |__ Auth
+|  |  |__ components
+|  |  |   |__ Login
+|  |  |   |__ LoginForm
+|  |  |   |__ Register
+|  |  |   |__ RegisterForm
+|  |  |
+|  |  |__ index.jsx
+|  |  |__ userSlice.js
+|  |     
+|  |__ Cart
+|     |__ components
+|     |   |__ NotProductInCart
+|     |   |__ ProductDetailCard
+|     |   |__ ProductTotalPrice
+|     |   
+|     |__ index.jsx
+|     |__ cartSlice.js
+|     |__ selector.js (compute derived data)
+|
+|__ utils (define common function using in App)
+      |__ common.js
+      |__ index.js
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Tổ chức routing
 
-## Learn More
+- Sử dụng kĩ thuật lazy load components.
+- Load theo features.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+// App.js
+function App() {
+  return (
+    <div className="app">
+      <Header />
+      <Switch>
+        <Redirect from="/home" to="/" exact />
+        <Redirect from="/" to="/products" exact />
+        <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeature} />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
+  )
+}
+```
+## Custom Field 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Cầu nối giữa UI control và React Hook Form.
+- UI control là một controlled component với props: 
+  - name: tên xác định control
+  - value: giá trị của control
+  - onChange: trigger hàm này với giá trị mới khi có thay đổi
+  - onBlur: xác định khi nào thì control này bị touched
 
-### Code Splitting
+```js
+function InputField(props) {
+  const { form, name, label, disabled } = props;
+  const { control, formState } = form;
+  const { errors } = formState;
+  const hasError = errors[name];
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue=""
+      render={({ field }) => (
+        <TextField
+          {...field}
+          fullWidth
+          label={label}
+          disabled={disabled}
+          error={!!hasError}
+          helperText={errors[name]?.message}
+          variant="outlined"
+          margin="normal"
+        />
+      )}
+    />
+  );
+}
+```
